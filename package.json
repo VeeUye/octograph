@@ -6,6 +6,9 @@
   "scripts": {
     "build": "tsc && cp src/index.html docs/index.html",
     "start": "node docs/index.js",
+    "dev": "tsc && node docs/index.js",
+    "deploy": "npm run build && git add . && git commit -m 'chore: deploy updates' && git push",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
