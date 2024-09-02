@@ -1,0 +1,18 @@
+{
+  "name": "octograph",
+  "version": "1.0.0",
+  "description": "A visualiser for Octopus energy tariffs",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && cp src/index.html docs/index.html",
+    "start": "node docs/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.5.2",
+    "typescript": "^5.5.4"
+  }
+}
