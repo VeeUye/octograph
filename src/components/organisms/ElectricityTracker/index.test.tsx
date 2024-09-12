@@ -1,9 +1,9 @@
-import React, { act } from 'react'
+import React from 'react'
 import { screen, waitFor } from '@testing-library/dom'
 import { render } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
-import GasTracker from './index'
+import ElectrictyTracker from './index'
 
 jest.mock('@tanstack/react-query', () => {
  const originalModule = jest.requireActual('@tanstack/react-query')
@@ -33,17 +33,17 @@ const setup = () => {
 
  render(
   <QueryClientProvider client={queryClient}>
-   <GasTracker />
+   <ElectrictyTracker />
   </QueryClientProvider>
  )
 }
 
-describe('GasTracker', () => {
+describe('ElectrictyTracker', () => {
  beforeEach(() => {
   jest.clearAllMocks()
  })
 
- it('renders today`s gas value after a successful fetch', async () => {
+ it('renders today`s electricity value after a successful fetch', async () => {
   useQuery.mockReturnValue({
    data: {
     value_inc_vat: 10.5,
@@ -60,7 +60,9 @@ describe('GasTracker', () => {
   setup()
 
   await waitFor(() => {
-   expect(screen.getByText(/Today's gas price: 10.5/i)).toBeInTheDocument()
+   expect(
+    screen.getByText(/Today's electricity price: 10.5/i)
+   ).toBeInTheDocument()
   })
  })
 
