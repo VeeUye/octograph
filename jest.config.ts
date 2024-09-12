@@ -1,8 +1,8 @@
 module.exports = {
- preset: 'ts-jest', // Ensure ts-jest is set as the preset
- testEnvironment: 'jest-environment-jsdom', // Explicitly set the jsdom environment
+ preset: 'ts-jest',
+ testEnvironment: 'jest-environment-jsdom',
  clearMocks: true,
  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
  testMatch: ['**/*.test.(ts|tsx|js|jsx)'],
- setupFilesAfterEnv: ['./jest.setup.ts'], // Ensure this points to your setup file
+ setupFilesAfterEnv: ['./jest.setup.ts'],
 }

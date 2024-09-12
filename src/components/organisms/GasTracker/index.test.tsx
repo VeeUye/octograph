@@ -1,30 +1,100 @@
-import React from 'react'
+import React, { act } from 'react'
 import { screen, waitFor } from '@testing-library/dom'
 import { render } from '@testing-library/react'
-import mockAxios from 'jest-mock-axios'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 import GasTracker from './index'
 
+jest.mock('@tanstack/react-query', () => {
+ const originalModule = jest.requireActual('@tanstack/react-query')
+ return {
+  ...originalModule,
+  useQuery: jest.fn(),
+ }
+})
+
+const { useQuery } = jest.requireMock('@tanstack/react-query')
+
+const createTestQueryClient = () => {
+ return new QueryClient({
+  defaultOptions: {
+   queries: {
+    retry: false,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnWindowFocus: false,
+   },
+  },
+ })
+}
+
+const setup = () => {
+ const queryClient = createTestQueryClient()
+
+ render(
+  <QueryClientProvider client={queryClient}>
+   <GasTracker />
+  </QueryClientProvider>
+ )
+}
+
 describe('GasTracker', () => {
- afterEach(() => {
-  mockAxios.reset()
+ beforeEach(() => {
+  jest.clearAllMocks()
  })
 
- const mockData = {
-  method: null,
-  valid_from: '2024-09-11T23:00:00Z',
-  valid_to: '2024-09-12T23:00:00Z',
-  value_exc_vat: 5,
-  value_inc_vat: 5.25,
- }
+ it('renders data after successful fetch', async () => {
+  useQuery.mockReturnValue({
+   data: {
+    value_inc_vat: 10.5,
+    value_exc_vat: 9.5,
+    valid_from: '...',
+    valid_to: '...',
+    payment_method: '...',
+   },
+   isLoading: false,
+   isError: false,
+   error: null,
+  })
 
- it('displays ', async () => {
-  render(<GasTracker />)
+  setup()
 
-  mockAxios.get.mockResolvedValueOnce({ data: mockData })
+  await waitFor(() => {
+   expect(screen.getByText(/Today's gas price: 10.5/i)).toBeInTheDocument()
+  })
+ })
 
-  const gasValue = await waitFor(() => screen.getByText('5.25'))
+ it('renders loading state initially', async () => {
+  useQuery.mockImplementation(() => {
+   return {
+    data: undefined,
+    isLoading: true,
+    isError: false,
+    error: null,
+   }
+  })
 
-  expect(screen.getByText('Hello')).toBeVisible()
+  setup()
+
+  await waitFor(() => {
+   expect(screen.getByText(/Loading.../i)).toBeInTheDocument()
+  })
+ })
+
+ it('renders error state when fetch fails', async () => {
+  useQuery.mockImplementation(() => {
+   return {
+    data: undefined,
+    isLoading: false,
+    isError: true,
+    error: new Error('Failed to fetch'),
+   }
+  })
+
+  setup()
+
+  await waitFor(() => {
+   expect(screen.getByText(/Error: Failed to fetch/i)).toBeInTheDocument()
+  })
  })
 })
