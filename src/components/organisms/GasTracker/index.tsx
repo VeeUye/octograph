@@ -1,12 +1,14 @@
 import React from 'react'
-import { getGasTrackerPrice } from '../../../services/api'
+import { getGasValueIncVat } from '../../../services/api'
 
 interface GasTrackerProps {
  // Define props
 }
 
 const GasTracker = ({}: GasTrackerProps) => {
- return <div>Hello</div>
+ const gasValue = getGasValueIncVat()
+
+ return <div>{gasValue}</div>
 }
 
 export default GasTracker
