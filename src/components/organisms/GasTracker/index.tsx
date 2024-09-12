@@ -23,7 +23,7 @@ const GasTracker = ({}: GasTrackerProps) => {
  return (
   <>
    <p>
-    Latest gas price: <strong>{data.value_inc_vat}</strong>
+    Today's gas price: <strong>{data.value_inc_vat}</strong>
    </p>
   </>
  )

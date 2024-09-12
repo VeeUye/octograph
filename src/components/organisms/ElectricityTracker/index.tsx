@@ -23,7 +23,7 @@ const ElectrictyTracker = ({}: ElectrictyTrackerProps) => {
  return (
   <>
    <p>
-    Latest electricity price: <strong>{data.value_inc_vat}</strong>
+    Today's electricity price: <strong>{data.value_inc_vat}</strong>
    </p>
   </>
  )

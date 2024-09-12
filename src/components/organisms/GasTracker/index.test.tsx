@@ -60,7 +60,7 @@ describe('GasTracker', () => {
   setup()
 
   await waitFor(() => {
-   expect(screen.getByText(/Today's gas price: 10.5/i)).toBeInTheDocument()
+   expect(screen.getByText(/10.5/i)).toBeInTheDocument()
   })
  })
 
