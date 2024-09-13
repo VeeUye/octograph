@@ -8,7 +8,7 @@ const queryClient = new QueryClient()
 const App: React.FC = () => {
  return (
   <QueryClientProvider client={queryClient}>
-   <h1>Welcome to Octograph</h1>
+   <h1>Octograph</h1>
    <GasTracker />
    <ElectricityTracker />
   </QueryClientProvider>

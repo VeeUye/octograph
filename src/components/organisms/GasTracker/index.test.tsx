@@ -1,4 +1,4 @@
-import React, { act } from 'react'
+import React from 'react'
 import { screen, waitFor } from '@testing-library/dom'
 import { render } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -43,24 +43,43 @@ describe('GasTracker', () => {
   jest.clearAllMocks()
  })
 
- it('renders today`s gas value after a successful fetch', async () => {
-  useQuery.mockReturnValue({
-   data: {
-    value_inc_vat: 10.5,
-    value_exc_vat: 9.5,
-    valid_from: '...',
-    valid_to: '...',
-    payment_method: '...',
-   },
-   isLoading: false,
-   isError: false,
-   error: null,
-  })
+ it('renders today`s tracker and standard gas values after a successful fetch', async () => {
+  useQuery
+   .mockImplementationOnce(() => ({
+    data: {
+     value_inc_vat: 10.5,
+     value_exc_vat: 9.5,
+     valid_from: '2023-01-01',
+     valid_to: '2023-12-31',
+     payment_method: 'Credit Card',
+    },
+    isLoading: false,
+    isError: false,
+    error: null,
+   }))
+   .mockImplementationOnce(() => ({
+    data: {
+     value_inc_vat: 11.0,
+     value_exc_vat: 10.0,
+     valid_from: '2023-01-01',
+     valid_to: '2023-12-31',
+     payment_method: 'Direct Debit',
+    },
+    isLoading: false,
+    isError: false,
+    error: null,
+   }))
 
   setup()
 
   await waitFor(() => {
-   expect(screen.getByText(/10.5/i)).toBeInTheDocument()
+   expect(screen.getByText(/today's tracker gas price:/i)).toHaveTextContent(
+    '10.50 p/kWh'
+   )
+
+   expect(
+    screen.getByText(/today's standard tariff gas price:/i)
+   ).toHaveTextContent('11.00 p/kWh')
   })
  })
 

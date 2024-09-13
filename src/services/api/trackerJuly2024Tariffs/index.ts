@@ -1,5 +1,10 @@
 import axios from 'axios'
 
+interface Result {
+ valid_from: string
+ valid_to: string
+}
+
 export const getTodaysGasValueIncVat = async () => {
  try {
   const response = await axios.get(
@@ -8,7 +13,7 @@ export const getTodaysGasValueIncVat = async () => {
 
   const now = new Date()
 
-  const currentResult = response.data.results.find((result) => {
+  const currentResult = response.data.results.find((result: Result) => {
    const validFrom = new Date(result.valid_from)
    const validTo = new Date(result.valid_to)
 
@@ -21,7 +26,9 @@ export const getTodaysGasValueIncVat = async () => {
 
   return currentResult
  } catch (error) {
-  console.error('Error fetching gas tracker price:', error)
+  if (process.env.NODE_ENV !== 'test') {
+   console.error('Error fetching gas tracker price:', error)
+  }
   throw error
  }
 }
@@ -34,7 +41,7 @@ export const getElectricityValueIncVat = async () => {
 
   const now = new Date()
 
-  const currentResult = response.data.results.find((result) => {
+  const currentResult = response.data.results.find((result: Result) => {
    const validFrom = new Date(result.valid_from)
    const validTo = new Date(result.valid_to)
 
@@ -47,7 +54,9 @@ export const getElectricityValueIncVat = async () => {
 
   return currentResult
  } catch (error) {
-  console.error('Error fetching gas tracker price:', error)
+  if (process.env.NODE_ENV !== 'test') {
+   console.error('Error fetching electricity tracker price:', error)
+  }
   throw error
  }
 }

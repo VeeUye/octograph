@@ -1,5 +1,10 @@
 import axios from 'axios'
 
+interface Result {
+ valid_from: string
+ valid_to: string
+}
+
 export const getStandardTariffGasValueIncVat = async () => {
  try {
   const response = await axios.get(
@@ -8,7 +13,7 @@ export const getStandardTariffGasValueIncVat = async () => {
 
   const now = new Date()
 
-  const result = response.data.results.find((result) => {
+  const result = response.data.results.find((result: Result) => {
    const validFrom = new Date(result.valid_from)
    const validTo = new Date(result.valid_to)
 
@@ -21,7 +26,9 @@ export const getStandardTariffGasValueIncVat = async () => {
 
   return result
  } catch (error) {
-  console.error('Error fetching standard tariff gas price:', error)
+  if (process.env.NODE_ENV !== 'test') {
+   console.error('Error fetching standard tariff gas price:', error)
+  }
   throw error
  }
 }
@@ -34,7 +41,7 @@ export const getStandardTariffElectricityValueIncVat = async () => {
 
   const now = new Date()
 
-  const result = response.data.results.find((result) => {
+  const result = response.data.results.find((result: Result) => {
    const validFrom = new Date(result.valid_from)
    const validTo = new Date(result.valid_to)
 
@@ -47,7 +54,9 @@ export const getStandardTariffElectricityValueIncVat = async () => {
 
   return result
  } catch (error) {
-  console.error('Error fetching standard tariff electricity price:', error)
+  if (process.env.NODE_ENV !== 'test') {
+   console.error('Error fetching standard tariff electricity price:', error)
+  }
   throw error
  }
 }
