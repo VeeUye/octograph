@@ -1,5 +1,5 @@
 import React from 'react'
-import { getElectricityValueIncVat } from '../../../services/api'
+import { getElectricityValueIncVat } from '../../../services/api/trackerJuly2024Tariffs'
 import { useQuery } from '@tanstack/react-query'
 
 interface ElectrictyTrackerProps {

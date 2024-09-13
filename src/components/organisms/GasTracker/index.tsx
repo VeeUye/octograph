@@ -1,5 +1,5 @@
 import React from 'react'
-import { getTodaysGasValueIncVat } from '../../../services/api'
+import { getTodaysGasValueIncVat } from '../../../services/api/trackerJuly2024Tariffs'
 import { useQuery } from '@tanstack/react-query'
 
 interface GasTrackerProps {
