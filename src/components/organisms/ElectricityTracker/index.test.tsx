@@ -44,18 +44,31 @@ describe('ElectrictyTracker', () => {
  })
 
  it('renders today`s electricity value after a successful fetch', async () => {
-  useQuery.mockReturnValue({
-   data: {
-    value_inc_vat: 10.5,
-    value_exc_vat: 9.5,
-    valid_from: '...',
-    valid_to: '...',
-    payment_method: '...',
-   },
-   isLoading: false,
-   isError: false,
-   error: null,
-  })
+  useQuery
+   .mockImplementationOnce(() => ({
+    data: {
+     value_inc_vat: 10.5,
+     value_exc_vat: 9.5,
+     valid_from: '2023-01-01',
+     valid_to: '2023-12-31',
+     payment_method: 'Credit Card',
+    },
+    isLoading: false,
+    isError: false,
+    error: null,
+   }))
+   .mockImplementationOnce(() => ({
+    data: {
+     value_inc_vat: 11.0,
+     value_exc_vat: 10.0,
+     valid_from: '2023-01-01',
+     valid_to: '2023-12-31',
+     payment_method: 'Direct Debit',
+    },
+    isLoading: false,
+    isError: false,
+    error: null,
+   }))
 
   setup()
 
