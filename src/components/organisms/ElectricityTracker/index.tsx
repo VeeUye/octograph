@@ -36,11 +36,27 @@ const ElectrictyTracker = ({}: ElectrictyTrackerProps) => {
   return <span>Error: {errorTracker.message}</span>
  }
 
+ const trackerLowerThanStandard =
+  dataTracker.value_inc_vat < dataStandard.value_inc_vat
+ const trackerHigherThanStandard =
+  dataTracker.value_inc_vat > dataStandard.value_inc_vat
+
+ const getStyle = () => {
+  if (trackerLowerThanStandard) {
+   return { color: 'green', fontWeight: 'bold' }
+  }
+  if (trackerHigherThanStandard) {
+   return { color: 'red', fontWeight: 'bold' }
+  }
+  return { color: 'black', fontWeight: 'normal' }
+ }
+
  return (
   <>
    <p>
     Today's tracker electricity price:{' '}
-    <strong>{dataTracker.value_inc_vat.toFixed(2)}</strong> p/kWh
+    <strong style={getStyle()}>{dataTracker.value_inc_vat.toFixed(2)}</strong>{' '}
+    p/kWh
    </p>
    <p>
     Today's standard tariff electricity price:{' '}
