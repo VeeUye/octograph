@@ -14,7 +14,7 @@ const ElectrictyTracker = ({}: ElectrictyTrackerProps) => {
   data: dataTracker,
   error: errorTracker,
  } = useQuery({
-  queryKey: ['tracker'],
+  queryKey: ['trackerElectricity'],
   queryFn: getElectricityValueIncVat,
  })
 
@@ -24,7 +24,7 @@ const ElectrictyTracker = ({}: ElectrictyTrackerProps) => {
   data: dataStandard,
   error: errorStandard,
  } = useQuery({
-  queryKey: ['standard'],
+  queryKey: ['standardElectricity'],
   queryFn: getStandardTariffElectricityValueIncVat,
  })
 
